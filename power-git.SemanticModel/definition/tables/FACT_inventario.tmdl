@@ -1,37 +1,37 @@
-table DIM_inventory
+table FACT_inventario
 	lineageTag: aa4917f4-3ff7-4210-8165-736deef66978
 
-	column Material
+	column cod_producto
 		dataType: string
 		lineageTag: 87a17a09-50de-4bb1-9a73-1297404af887
 		summarizeBy: none
-		sourceColumn: Material
+		sourceColumn: cod_producto
 
 		annotation SummarizationSetBy = Automatic
 
-	column Almacen
+	column almacen
 		dataType: string
 		lineageTag: dbe84f64-49ea-40cc-8c44-9efaca5a6822
 		summarizeBy: none
-		sourceColumn: Almacen
+		sourceColumn: almacen
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Ctd de cajas'
+	column ctd_cajas
 		dataType: int64
 		formatString: 0
 		lineageTag: e21aff39-c902-4289-9c24-b8df1a052fa9
 		summarizeBy: sum
-		sourceColumn: Ctd de cajas
+		sourceColumn: ctd_cajas
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Fecha Contab'
+	column fecha_contable
 		dataType: dateTime
 		formatString: Long Date
 		lineageTag: a775da51-1fce-40da-8dd2-9c46781754ed
 		summarizeBy: none
-		sourceColumn: Fecha Contab
+		sourceColumn: fecha_contable
 
 		variation Variación
 			isDefault
@@ -42,17 +42,18 @@ table DIM_inventory
 
 		annotation UnderlyingDateTimeDataType = Date
 
-	partition DIM_inventory = m
+	partition FACT_inventario = m
 		mode: import
 		source =
 				let
 				    Origen = Csv.Document(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vT3vm04DuOh2-f5apkPk2qSBalaeA4-mRZgN2mFBN_uvyvWC2VuM7VvG6__TXlLAg/pub?output=csv"),[Delimiter=",", Columns=4, Encoding=1252, QuoteStyle=QuoteStyle.None]),
 				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
-				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"Material", type text}, {"Almacen", type text}, {"Ctd de cajas", Int64.Type}, {"Fecha Contab", type date}})
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"Material", type text}, {"Almacen", type text}, {"Ctd de cajas", Int64.Type}, {"Fecha Contab", type date}}),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Tipo cambiado",{{"Material", "cod_producto"}, {"Almacen", "almacen"}, {"Ctd de cajas", "ctd_cajas"}, {"Fecha Contab", "fecha_contable"}})
 				in
-				    #"Tipo cambiado"
-
-	changedProperty = Name
+				    #"Columnas con nombre cambiado"
 
 	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegación
 

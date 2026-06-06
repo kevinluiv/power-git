@@ -10,14 +10,14 @@ annotation __PBI_TimeIntelligenceEnabled = 1
 
 annotation PBI_ProTooling = ["DevMode"]
 
-annotation PBI_QueryOrder = ["DIM_inventory","FACT_movements","DIM_product"]
+annotation PBI_QueryOrder = ["FACT_inventario","FACT_moviminetos_almacen","DIM_producto"]
 
-ref table DIM_inventory
+ref table FACT_inventario
 ref table DateTableTemplate_cf0ef61c-48ba-4793-abbf-24cd0d5885b5
 ref table LocalDateTable_d82ade4b-03f3-4224-b7be-7be4d1766dca
-ref table FACT_movements
+ref table FACT_moviminetos_almacen
 ref table LocalDateTable_218c0088-1f4b-4c4a-9700-29ead491c365
-ref table DIM_product
+ref table DIM_producto
 
 ref cultureInfo es-ES
 

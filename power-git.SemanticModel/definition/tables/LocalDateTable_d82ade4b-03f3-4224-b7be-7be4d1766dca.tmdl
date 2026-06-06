@@ -110,7 +110,7 @@ table LocalDateTable_d82ade4b-03f3-4224-b7be-7be4d1766dca
 
 	partition LocalDateTable_d82ade4b-03f3-4224-b7be-7be4d1766dca = calculated
 		mode: import
-		source = Calendar(Date(Year(MIN('DIM_inventory'[Fecha Contab])), 1, 1), Date(Year(MAX('DIM_inventory'[Fecha Contab])), 12, 31))
+		source = Calendar(Date(Year(MIN('FACT_inventario'[fecha_contable])), 1, 1), Date(Year(MAX('FACT_inventario'[fecha_contable])), 12, 31))
 
 	annotation __PBI_LocalDateTable = true
 

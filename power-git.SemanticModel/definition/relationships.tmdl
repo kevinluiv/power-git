@@ -1,10 +1,10 @@
 relationship 8c2ec566-9d07-407c-83da-aaaca13e6599
 	joinOnDateBehavior: datePartOnly
-	fromColumn: DIM_inventory.'Fecha Contab'
+	fromColumn: FACT_inventario.fecha_contable
 	toColumn: LocalDateTable_d82ade4b-03f3-4224-b7be-7be4d1766dca.Date
 
 relationship 222bffe6-045c-42c0-8b0c-9f244f107228
 	joinOnDateBehavior: datePartOnly
-	fromColumn: FACT_movements.fecha
+	fromColumn: FACT_moviminetos_almacen.fecha_contable
 	toColumn: LocalDateTable_218c0088-1f4b-4c4a-9700-29ead491c365.Date
 
