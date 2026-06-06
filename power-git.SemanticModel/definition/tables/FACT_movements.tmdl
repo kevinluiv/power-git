@@ -1,0 +1,63 @@
+table FACT_movements
+	lineageTag: 9e14eb4c-23cf-49a9-8ece-3661f5780951
+
+	column Material
+		dataType: string
+		lineageTag: 12a49f54-1de4-4a38-9f83-93b2ed889ab2
+		summarizeBy: none
+		sourceColumn: Material
+
+		annotation SummarizationSetBy = Automatic
+
+	column Almacen
+		dataType: string
+		lineageTag: 301b57be-f2e1-40ba-a261-320c05e64a39
+		summarizeBy: none
+		sourceColumn: Almacen
+
+		annotation SummarizationSetBy = Automatic
+
+	column tipo_movimiento
+		dataType: string
+		lineageTag: 23ca38cc-d3ac-4d64-9e15-689bf6a3c41c
+		summarizeBy: none
+		sourceColumn: tipo_movimiento
+
+		annotation SummarizationSetBy = Automatic
+
+	column ctd
+		dataType: int64
+		formatString: 0
+		lineageTag: 74740c23-5115-4abb-a24c-a2b3f73a27e0
+		summarizeBy: sum
+		sourceColumn: ctd
+
+		annotation SummarizationSetBy = Automatic
+
+	column fecha
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 55149e3d-a469-4730-a10b-b5cfb2df109f
+		summarizeBy: none
+		sourceColumn: fecha
+
+		variation Variación
+			isDefault
+			relationship: 222bffe6-045c-42c0-8b0c-9f244f107228
+			defaultHierarchy: LocalDateTable_218c0088-1f4b-4c4a-9700-29ead491c365.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition FACT_movements = m
+		mode: import
+		source =
+				let
+				    Origen = Sql.Database("hernan-sql-server.database.windows.net", "free-sql-db-3502640"),
+				    pbi_movimientos_almacen = Origen{[Schema="pbi",Item="movimientos_almacen"]}[Data]
+				in
+				    pbi_movimientos_almacen
+
+	changedProperty = Name
+

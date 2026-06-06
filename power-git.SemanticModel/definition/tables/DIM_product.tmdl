@@ -1,0 +1,59 @@
+table DIM_product
+	lineageTag: b22245e4-d1c1-4708-b34c-e9d12a50098d
+
+	column Código
+		dataType: string
+		lineageTag: 7839109e-6b19-4e2a-941d-b37c21dbe223
+		summarizeBy: none
+		sourceColumn: Código
+
+		annotation SummarizationSetBy = Automatic
+
+	column Producto
+		dataType: string
+		lineageTag: d9f585a7-a900-4646-bc33-b5fb8504b0a9
+		summarizeBy: none
+		sourceColumn: Producto
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Descripción del producto'
+		dataType: string
+		lineageTag: 0743ccbd-f42e-4acb-ae3c-422f6314860d
+		summarizeBy: none
+		sourceColumn: Descripción del producto
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tamaño de la pieza'
+		dataType: string
+		lineageTag: 6ac06f1b-e72b-409c-85cd-797f693c46d1
+		summarizeBy: none
+		sourceColumn: Tamaño de la pieza
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Peso de la pieza'
+		dataType: string
+		lineageTag: 137cb0bf-326e-4f37-add6-c73b220e0630
+		summarizeBy: none
+		sourceColumn: Peso de la pieza
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_product = m
+		mode: import
+		source =
+				let
+				    Origen = Pdf.Tables(AzureStorage.BlobContents("https://hernanalmacen.blob.core.windows.net/csv-data/dataset_productos_powerquery.pdf"), [Implementation="1.3"]),
+				    Table001 = Origen{[Id="Table001"]}[Data],
+				    #"Tipo cambiado" = Table.TransformColumnTypes(Table001,{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}, {"Column4", type text}, {"Column5", type text}}),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(#"Tipo cambiado", [PromoteAllScalars=true]),
+				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"Código", type text}, {"Producto", type text}, {"Descripción del producto", type text}, {"Tamaño de la pieza", type text}, {"Peso de la pieza", type text}})
+				in
+				    #"Tipo cambiado1"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
