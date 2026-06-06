@@ -52,6 +52,7 @@ table FACT_moviminetos_almacen
 
 	partition FACT_moviminetos_almacen = m
 		mode: import
+		queryGroup: FACTs
 		source =
 				let
 				    Origen = Sql.Database("hernan-sql-server.database.windows.net", "free-sql-db-3502640"),

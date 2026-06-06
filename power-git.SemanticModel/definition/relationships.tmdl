@@ -8,3 +8,19 @@ relationship 222bffe6-045c-42c0-8b0c-9f244f107228
 	fromColumn: FACT_moviminetos_almacen.fecha_contable
 	toColumn: LocalDateTable_218c0088-1f4b-4c4a-9700-29ead491c365.Date
 
+relationship AutoDetected_76152412-59a7-4976-aab7-6d6990ecd5a6
+	fromColumn: FACT_inventario.almacen
+	toColumn: DIM_almacen.almacen
+
+relationship AutoDetected_d938c4c7-c069-4629-bf6c-dacc93680b77
+	fromColumn: FACT_moviminetos_almacen.almacen
+	toColumn: DIM_almacen.almacen
+
+relationship 69db33cd-52ee-a1c4-4abf-ae7f5768363a
+	fromColumn: FACT_moviminetos_almacen.cod_producto
+	toColumn: DIM_producto.cod_producto
+
+relationship 9b6353b6-c595-e5d1-e1fa-5c66a19f6d0d
+	fromColumn: FACT_inventario.cod_producto
+	toColumn: DIM_producto.cod_producto
+

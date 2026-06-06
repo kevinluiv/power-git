@@ -1,0 +1,29 @@
+table DIM_almacen
+	lineageTag: 248733b8-524a-4b2d-bc66-631518d4c5a3
+
+	column almacen
+		dataType: string
+		lineageTag: b6ed4fd2-e979-4348-b901-3df56040d602
+		summarizeBy: none
+		sourceColumn: almacen
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_almacen = m
+		mode: import
+		queryGroup: DIMs
+		source =
+				let
+				    Origen = Csv.Document(Web.Contents("https://docs.google.com/spreadsheets/d/e/2PACX-1vT3vm04DuOh2-f5apkPk2qSBalaeA4-mRZgN2mFBN_uvyvWC2VuM7VvG6__TXlLAg/pub?output=csv"),[Delimiter=",", Columns=4, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Origen, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"Material", type text}, {"Almacen", type text}, {"Ctd de cajas", Int64.Type}, {"Fecha Contab", type date}}),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Tipo cambiado",{{"Material", "cod_producto"}, {"Almacen", "almacen"}, {"Ctd de cajas", "ctd_cajas"}, {"Fecha Contab", "fecha_contable"}}),
+				    #"Otras columnas quitadas" = Table.SelectColumns(#"Columnas con nombre cambiado",{"almacen"}),
+				    #"Duplicados quitados" = Table.Distinct(#"Otras columnas quitadas")
+				in
+				    #"Duplicados quitados"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
